@@ -37,10 +37,23 @@ public class JpaMain {
                     .setFirstResult(1)
                     .setMaxResults(10)
                     .getResultList();
-            
-            for (Member member : result) {
-                System.out.println("member.getName() = " + member.getName());
-            }
+            // 비영속
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("HelloJPA");
+
+            // 영속
+            System.out.println("=== Before ===");
+            em.persist(member);
+
+            // detach
+            em.detach(member);
+
+            // remove
+            em.remove(member);
+            System.out.println("=== After ===");
+
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
