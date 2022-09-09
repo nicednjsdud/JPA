@@ -83,3 +83,49 @@
     // 1차 캐시에서 없으니 데이터베이스에서 조회
     Member findMember2 = em.find(Member.class,"member2");
 ```
+
+### 2) 영속 엔티티의 동일성 보장
+
+- 1차 캐시로 반복 가능한 읽기(REPEATABLE READ)등급의 트랜잭션 격리 수준을  
+  데이터 베이스가 아닌 애플리케이션 차원에서 제공
+
+```java
+    Member a = em.find(Member.class,"member1");
+    Member b = em.find(Member.class,"member1");
+
+    System.out.println(a==b);   // 동일성 비교 true
+```
+
+### 3) 엔티티 등록 (트랜잭션을 지원하는 쓰기 지연)
+
+```java
+    EntityManager em = emf.createEntityManager();
+    EtityTransaction transaction = em.getTransaction();
+    // 엔티티 매니저는 데이터 변경시 트랜잭션을 시작해야 한다.
+    transaction.begin();    // 트랜잭션 시작
+
+    em.persist(memberA);
+    em.persist(memberB);
+    // 여기까지 INSERT SQL을 데이터베이스에 보내지 않는다.
+
+    // 커밋하는 순간 데이터베이스의 INSERT SQL을 보낸다.
+    transaction.commit();   // 트랜잭션 커밋
+```
+
+### 4) 엔티티 수정 (변경 감지)
+
+```java
+     EntityManager em = emf.createEntityManager();
+    EtityTransaction transaction = em.getTransaction();
+    // 엔티티 매니저는 데이터 변경시 트랜잭션을 시작해야 한다.
+    transaction.begin();    // 트랜잭션 시작
+
+    // 영속 엔티티 조회
+    Member memberA = em.find(Mmeber.class,"memberA");
+
+    // 영속 엔티티 데이터 수정
+    memberA.setUsername("hi");
+    memberA.setAge(10);
+
+    transaction.commit();   // 트랜잭션 커밋
+```
