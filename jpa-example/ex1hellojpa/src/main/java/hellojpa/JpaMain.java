@@ -66,12 +66,16 @@ public class JpaMain {
 //            member.setName("ZZZZZ");
 //            System.out.println("==============");
 
-            Member member = new Member(200L, "member200");
+//            Member member = new Member(200L, "member200");
+//            em.persist(member);
+//            em.flush();
+//            System.out.println("================");
+
+            Member member = new Member();
+            member.setId(3L);
+            member.setUsername("B");
+            member.setRoleType(RoleType.GUEST);
             em.persist(member);
-            em.flush();
-            System.out.println("================");
-
-
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
