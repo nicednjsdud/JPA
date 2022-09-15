@@ -1,9 +1,8 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -104,13 +103,54 @@ public class JpaMain {
 //            movie.setName("바람과 함께 사라지다.");
 //            movie.setPrice(10000);
 //            em.persist(movie);
-            Member member = new Member();
-            member.setCreateBy("Jeong");
-            member.setUsername("user1");
-            member.setCreatedDate(LocalDateTime.now());
+//            Member member = new Member();
+//            member.setCreateBy("Jeong");
+//            member.setUsername("user1");
+//            member.setCreatedDate(LocalDateTime.now());
+//            em.flush();
+//            em.clear();
+
+//            Member member = em.find(Member.class, 1L);
+//            printMember(member);
+
+//            Member member = new Member();
+//            member.setUsername("hello");
+//
+//            em.persist(member);
+
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            em.persist(member2);
+
             em.flush();
             em.clear();
 
+            Member m1 = em.getReference(Member.class, member1.getId());
+            System.out.println("m1 = " +m1.getClass());     // proxy
+//            em.detach(m1);
+//            System.out.println("m1.getUsername() = " + m1.getUsername());
+//            m1.getUsername();   // 강제초기화
+            Hibernate.initialize(m1);
+
+            System.out.println("isLoaded = "+ emf.getPersistenceUnitUtil().isLoaded(m1));
+
+//            Member reference = em.find(Member.class, member1.getId());
+//            System.out.println("reference = " + reference.getClass());
+//
+//            System.out.println("a==a : " + (m1 == reference));
+
+//            logic(m1,m2);
+
+            //
+//            Member member1 = em.find(Member.class, member.getId());
+
+//            Member findMember = em.getReference(Member.class, member.getId());
+//            System.out.println("member1.getId() = " + findMember.getId());
+//            System.out.println("member1.getUsername() = " + findMember.getUsername());
 
 
 //            Movie findMovie = em.find(Movie.class, movie.getId());
@@ -120,10 +160,27 @@ public class JpaMain {
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
 
         emf.close();
+    }
+
+    private static void logic(Member m1,Member m2) {
+        System.out.println("m1 == m2" +(m1 instanceof Member));
+        System.out.println("m1 == m2" +(m2 instanceof Member));
+    }
+
+    private static void printMember(Member member) {
+        System.out.println("member.getUsername() = " + member.getUsername());
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String username = member.getUsername();
+        System.out.println("username = " + username);
+        Team team = member.getTeam();
+        System.out.println("team = " + team);
     }
 }
