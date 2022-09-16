@@ -195,7 +195,7 @@ public class JpaMain {
 
             Address newAddress =new Address("newCity",address.getStreet(),address.getZipCode());
             member1.setHomeAddress(newAddress);
-            
+
 
 
             tx.commit();
