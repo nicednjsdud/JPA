@@ -186,18 +186,51 @@ public class JpaMain {
 //            Parent findParent = em.find(Parent.class, parent.getId());
 //            findParent.getChildList().remove(0);
 
-            Address address =new Address("city","street","100");
+//            Address address =new Address("city","street","100");
+//
+//            Member member1 = new Member();
+//            member1.setUsername("member1");
+//            member1.setHomeAddress(address);
+//            em.persist(member1);
+//
+//            Address newAddress =new Address("newCity",address.getStreet(),address.getZipCode());
+//            member1.setHomeAddress(newAddress);
 
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setHomeAddress(address);
-            em.persist(member1);
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("homeCity", "street", "10000"));
 
-            Address newAddress =new Address("newCity",address.getStreet(),address.getZipCode());
-            member1.setHomeAddress(newAddress);
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("피자");
+            member.getFavoriteFoods().add("족발");
 
+            member.getAddressHistory().add(new AddressEntity("old1", "street", "10000"));
+            member.getAddressHistory().add(new AddressEntity("old2", "street", "10000"));
 
+            em.persist(member);
 
+            em.flush();
+            em.clear();
+
+            System.out.println("=============START==================");
+            Member findMember = em.find(Member.class, member.getId());
+
+//            List<Address> addressHistory = findMember.getAddressHistory();
+//            for (Address address : addressHistory) {
+//                System.out.println("address.getCity() = " + address.getCity());
+//            }
+
+            // homeCity -> newCity
+//            Address a = findMember.getHomeAddress();
+//            findMember.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipCode()));
+//
+//            // 치킨 -> 한식
+//            findMember.getFavoriteFoods().remove("치킨");
+//            findMember.getFavoriteFoods().add("한식");
+//
+//            // old1 -> newCity1
+//            findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "10000"));
+//            findMember.getAddressHistory().add(new AddressEntity("newCity1", "street", "10000"));
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
