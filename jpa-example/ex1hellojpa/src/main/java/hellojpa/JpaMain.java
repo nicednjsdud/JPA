@@ -185,11 +185,17 @@ public class JpaMain {
 //
 //            Parent findParent = em.find(Parent.class, parent.getId());
 //            findParent.getChildList().remove(0);
-            Member member = new Member();
-            member.setUsername("hello");
-            member.setHomeAddress(new Address("city","street","100"));
-            member.setPeriod(new Period());
-            em.persist(member);
+
+            Address address =new Address("city","street","100");
+
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            member1.setHomeAddress(address);
+            em.persist(member1);
+
+            Address newAddress =new Address("newCity",address.getStreet(),address.getZipCode());
+            member1.setHomeAddress(newAddress);
+            
 
 
             tx.commit();
