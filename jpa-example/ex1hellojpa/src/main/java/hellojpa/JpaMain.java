@@ -3,6 +3,9 @@ package hellojpa;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -196,24 +199,24 @@ public class JpaMain {
 //            Address newAddress =new Address("newCity",address.getStreet(),address.getZipCode());
 //            member1.setHomeAddress(newAddress);
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setHomeAddress(new Address("homeCity", "street", "10000"));
-
-            member.getFavoriteFoods().add("치킨");
-            member.getFavoriteFoods().add("피자");
-            member.getFavoriteFoods().add("족발");
-
-            member.getAddressHistory().add(new AddressEntity("old1", "street", "10000"));
-            member.getAddressHistory().add(new AddressEntity("old2", "street", "10000"));
-
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-
-            System.out.println("=============START==================");
-            Member findMember = em.find(Member.class, member.getId());
+//            Member member = new Member();
+//            member.setUsername("member1");
+//            member.setHomeAddress(new Address("homeCity", "street", "10000"));
+//
+//            member.getFavoriteFoods().add("치킨");
+//            member.getFavoriteFoods().add("피자");
+//            member.getFavoriteFoods().add("족발");
+//
+//            member.getAddressHistory().add(new AddressEntity("old1", "street", "10000"));
+//            member.getAddressHistory().add(new AddressEntity("old2", "street", "10000"));
+//
+//            em.persist(member);
+//
+//            em.flush();
+//            em.clear();
+//
+//            System.out.println("=============START==================");
+//            Member findMember = em.find(Member.class, member.getId());
 
 //            List<Address> addressHistory = findMember.getAddressHistory();
 //            for (Address address : addressHistory) {
@@ -231,6 +234,42 @@ public class JpaMain {
 //            // old1 -> newCity1
 //            findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "10000"));
 //            findMember.getAddressHistory().add(new AddressEntity("newCity1", "street", "10000"));
+//
+//            List<Member> result2 = em.createQuery(
+//                    "select m from member m where m.name like '%hello%'", Member.class
+//            ).getResultList();
+
+            // Ceiteria 사용 준비
+//            CriteriaBuilder cb = em.getCriteriaBuilder();
+//            CriteriaQuery<Member> query = cb.createQuery(Member.class);
+//
+//            // 루트 클래스 (조회를 시작할 클래스)
+//            Root<Member> m = query.from(Member.class);
+//
+//            // 쿼리 생성
+//            CriteriaQuery<Member> cq = query.select(m);
+//
+//            String username = "Jeong123";
+//            if(username !=null){
+//                cq = cq.where(cb.equal(m.get("username"), "Jeong"));
+//            }
+//            List<Member> resultList = em.createQuery(cq).getResultList();
+            
+            Member member = new Member();
+            member.setUsername("member1");
+            em.persist(member);
+            
+            // flush -> commit, query 때 동작
+
+            em.flush();
+
+            // 결과 0
+            // dbconn.executeQuery("select * from member");
+
+            for (Member member1 : resultList) {
+                System.out.println("member1 = " + member1);
+            }
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
