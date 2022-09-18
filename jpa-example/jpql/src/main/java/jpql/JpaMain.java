@@ -27,10 +27,8 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m from Member m inner join m.team t";
+            String query = "select (select avg(m1.age) from Member m1) as avgAge from Member m inner join m.team t on m.username = t.name";
             List<Member> result = em.createQuery(query, Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
                     .getResultList();
 
 //            System.out.println("result.size() = " + result.size());
