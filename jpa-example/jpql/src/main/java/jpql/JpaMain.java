@@ -1,6 +1,7 @@
 package jpql;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 public class JpaMain {
@@ -37,10 +38,12 @@ public class JpaMain {
 //            String query = "select coalesce(m.username, '이름 없는 회원') from Member m";
 //            String query = "select nullif(m.username, '관리자')from Member m";
 //            String query = "select 'A' || 'B' From Member m"; // concat
-            String query = "select function('group_concat',m.username) From Member m";
-            List<String> result = em.createQuery(query, String.class).getResultList();
-            for (String s : result) {
-                System.out.println("s = " + s);
+//            String query = "select function('group_concat',m.username) From Member m";
+//            String query = "select m.team From Member m";
+            String query = "select m.username From Team t join t.members m";
+            List<Collection> result = em.createQuery(query, Collection.class).getResultList();
+            for (Object o : result) {
+                System.out.println("o = " + o);
             }
 
 //            String query = "select m.username, 'HELLO', true FROM Member m " +
