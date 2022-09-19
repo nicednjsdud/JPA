@@ -15,20 +15,42 @@ public class JpaMain {
 
         try {
 
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
+            Team teamA = new Team();
+            teamA.setName("팀A");
+            em.persist(teamA);
 
-            Member member = new Member();
-            member.setUsername("Jeong");
-            member.setAge(10);
-            member.setTeam(team);
-            member.setType(MemberType.ADMIN);
-            em.persist(member);
+            Team teamB = new Team();
+            teamB.setName("팀B");
+            em.persist(teamB);
+
+            Member member1 = new Member();
+            member1.setUsername("회원1");
+            member1.setTeam(teamA);
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("회원2");
+            member2.setTeam(teamA);
+            em.persist(member2);
+
+            Member member3 = new Member();
+            member3.setUsername("회원3");
+            member3.setTeam(teamB);
+            em.persist(member3);
 
             em.flush();
             em.clear();
 
+//            String query = "select m From Member m join fetch m.team";
+            String query = "select distinct t From Team t join fetch t.members";
+            List<Team> result = em.createQuery(query, Team.class).getResultList();
+            for (Team t : result) {
+//                System.out.println("username = "+m.getUsername() +"," + "teamName = "+m.getTeam().getName());
+                System.out.println("team = " + t.getName() + "|members =" + t.getMembers().size());
+                for(Member member : t.getMembers()){
+                    System.out.println("member = " + member);
+                }
+            }
 //            String query = "select "+
 //                                "case when m.age <=10 then '학생요금'" +
 //                                "when m.age >= 60 then '경로요금' " +
@@ -40,11 +62,7 @@ public class JpaMain {
 //            String query = "select 'A' || 'B' From Member m"; // concat
 //            String query = "select function('group_concat',m.username) From Member m";
 //            String query = "select m.team From Member m";
-            String query = "select m.username From Team t join t.members m";
-            List<Collection> result = em.createQuery(query, Collection.class).getResultList();
-            for (Object o : result) {
-                System.out.println("o = " + o);
-            }
+
 
 //            String query = "select m.username, 'HELLO', true FROM Member m " +
 //                           "where m.type = :userType";
