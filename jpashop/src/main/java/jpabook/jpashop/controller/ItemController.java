@@ -72,7 +72,7 @@ public class ItemController {
         form.setAuthor(item.getAuthor());
         form.setIsbn(item.getIsbn());
 
-        model.addAttribute("form",form);
+        model.addAttribute("form", form);
         return "items/updateItemForm";
     }
 
@@ -80,17 +80,10 @@ public class ItemController {
      * 상품 수정
      */
     @PostMapping("items/{itemId}/edit")
-    public String updateItemForm(@ModelAttribute("form") BookForm form){
+    public String updateItemForm(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
 
-        Book book = new Book();
-        book.setId(form.getId());
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
+        itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
 
-        itemService.saveItem(book);
         return "redirect:items";
 
     }
