@@ -1,25 +1,25 @@
 # BOB's SHOP
 
-## 📍개발 환경
+## 📍 개발 환경
 
 - Spring Boot, thymeleaf, Bootstrap, JavaScript
 - Database - H2
 - Build Tool : Gradle
 - Java : 11 version
 
-## 🛠도메인 모델과 테이블 설계
+## 🛠 도메인 모델과 테이블 설계
 
 ![alt](/assets/images/post/jpa/57.png)
 
-## 🛠ERD 다이어그램
+## 🛠 ERD 다이어그램
 
 ![alt](/assets/images/post/jpa/58.png)
 
-## 🛠애플리케이션 아키텍쳐
+## 🛠 애플리케이션 아키텍쳐
 
 ![alt](/assets/images/post/jpa/59.png)
 
-## 💾기능
+## 💾 기능
 
 ### 1) 회원 기능
 
