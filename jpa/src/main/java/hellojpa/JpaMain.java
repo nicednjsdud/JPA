@@ -56,9 +56,23 @@ public class JpaMain {
 //
 //            em.persist(member1);
 //            em.persist(member2);
-            Member findMember = em.find(Member.class, 150L);
-            findMember.setName("ZZZZZ");
-            
+//            Member findMember = em.find(Member.class, 150L);
+//            findMember.setName("ZZZZZ");
+//
+//            if(findMember.getName().equals("ZZZZZ")){
+//                em.persist(findMember);
+//            }
+
+//            Member member = new Member(200L,"member200");
+//            em.persist(member);
+//
+//            em.flush();
+//            Member member = em.find(Member.class,150L);
+//            member.setName("AAAAA");
+//
+//            em.detach(member);
+//
+//            System.out.println("================================");
 
             tx.commit();
 
