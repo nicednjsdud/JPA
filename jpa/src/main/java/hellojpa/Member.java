@@ -36,6 +36,15 @@ public class Member {
     @CollectionTable(name = "ADDRESS", joinColumns =
     @JoinColumn(name = "MEMBER_ID")
     )
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "members")
+    private Team team;
+
+    public void changeTeam(Team team){
+        this.team = team;
+        team.getMembers().add(this);
+    }
     private List<Address> addressHistory = new ArrayList<>();
 
     public Long getId() {
@@ -84,5 +93,13 @@ public class Member {
 
     public void setAddressHistory(List<Address> addressHistory) {
         this.addressHistory = addressHistory;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

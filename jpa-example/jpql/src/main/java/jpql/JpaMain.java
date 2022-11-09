@@ -15,6 +15,10 @@ public class JpaMain {
 
         try {
 
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
             Member member = new Member();
             member.setUsername("member1");
             member.setAge(10);
