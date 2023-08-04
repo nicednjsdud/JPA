@@ -42,7 +42,7 @@ public class OrderItem {
     public void cancel() {
         getItem().addStock(count);
     }
-    
+
     // 조회 로직
     public int getTotalPrice() {
         return getOrderPrice() * getTotalPrice();
